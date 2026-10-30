@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Festa · See You at the Next Party</title>
+<meta name="description" content="Festa, Ivo's birthday party app. See you at the next party.">
+<meta property="og:title" content="Festa · See You at the Next Party">
+<meta property="og:description" content="Festa, Ivo's birthday party app. See you at the next party.">
+<meta property="og:url" content="https://festa.appdoivo.com">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://festa.appdoivo.com/og-image.jpg?v=1">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://festa.appdoivo.com">
+<link rel="icon" href="favicon-32.png" sizes="32x32">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#224626">
+<meta name="color-scheme" content="only light">
+<link rel="preload" as="image" href="img/cottage.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Between parties: the cottage from the app's login screen, and a countdown.
+     The painting's own green continues past its edges on wide screens. */
+  :root { --moss: #224626; --cream: #f1ead7; --soft: #cfd8c4; --ember: #e2a676;
+          --serif: "Cormorant Garamond", Georgia, serif; --body: "EB Garamond", Georgia, serif; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body { background: var(--moss); color: var(--cream); font-family: var(--body); overflow-x: hidden; }
+  .scene { position: fixed; inset: 0; overflow: hidden; }
+  .scene img {
+    position: absolute; top: 0; left: 50%; translate: -50% 0; height: 100%; width: auto; max-width: none;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+  }
+  /* Narrower than the painting (phones): no fade needed, the sides are cropped */
+  @media (max-aspect-ratio: 804/1538) { .scene img { -webkit-mask-image: none; mask-image: none; } }
+  /* Darken the top and bottom a little, so the words read over the paint */
+  .scene::after { content: ""; position: absolute; inset: 0;
+    background: linear-gradient(rgba(14, 32, 17, .55), transparent 28%, transparent 62%, rgba(14, 32, 17, .7)); }
+
+  main {
+    position: relative; min-height: 100svh; display: grid; grid-template-rows: auto 1fr auto; justify-items: center; text-align: center;
+    padding: max(20px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  }
+  .lang {
+    justify-self: end; min-width: 52px; min-height: 44px; padding: 0 14px; border-radius: 22px; cursor: pointer;
+    font: 500 15px var(--body); letter-spacing: .08em; color: var(--cream); background: rgba(14, 32, 17, .35); border: 1px solid rgba(241, 234, 215, .6);
+  }
+  .lang:hover { background: var(--cream); color: var(--moss); }
+  :focus-visible { outline: 2px solid var(--cream); outline-offset: 3px; }
+  header { margin-top: 2svh; }
+  h1 { font: 500 clamp(56px, 11vw, 96px)/1 var(--serif); margin: 0; letter-spacing: .01em; text-shadow: 0 2px 18px rgba(0, 0, 0, .35); }
+  .see { font: italic 500 clamp(22px, 3.6vw, 30px)/1.25 var(--serif); margin: 10px 0 0; color: var(--soft); text-wrap: balance; }
+
+  .bottom { display: grid; gap: 18px; justify-items: center; align-self: end; }
+  .count { display: flex; gap: clamp(12px, 3vw, 28px); margin: 0; padding: 0; list-style: none; }
+  .count li { display: grid; min-width: 64px; }
+  .count b { font: 500 clamp(40px, 8vw, 64px)/1 var(--serif); font-variant-numeric: lining-nums tabular-nums; }
+  .count span { font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: var(--soft); margin-top: 6px; }
+  .when { font-size: 19px; margin: 0; }
+  .tba { font: italic 500 26px var(--serif); margin: 0; }
+  .demo {
+    display: inline-flex; align-items: center; min-height: 44px; padding: 0 22px; border-radius: 999px; text-decoration: none;
+    color: var(--moss); background: var(--cream); font-size: 17px; font-weight: 500;
+  }
+  .demo:hover { background: #fff; }
+</style>
+</head>
+<body>
+<div class="scene" aria-hidden="true"><img src="img/cottage.webp" alt="" width="804" height="1538"></div>
+<main>
+  <button class="lang" id="lang" type="button">PT</button>
+  <header>
+    <h1>Festa</h1>
+    <p class="see" data-t="see"></p>
+  </header>
+  <div class="bottom">
+    <div id="clock" aria-live="off"></div>
+    <a class="demo" href="https://festa-demo.appdoivo.com" data-t="demo"></a>
+  </div>
+</main>
+<script>
+  // The next party: Ivo's birthday is 15 September; the party is that weekend
+  // (from the Friday) when the 15th falls on a weekend, else the next weekend.
+  // Worked out every year, so the page never needs touching. To pin a date
+  // instead, set OVERRIDE, e.g. "2027-09-17T21:00:00+01:00".
+  const OVERRIDE = null;
+  function partyDay(year) {
+    const bday = new Date(year, 8, 15);                    // 15 September
+    const dow = bday.getDay();                             // 0 Sun … 6 Sat
+    if (dow === 6) return new Date(year, 8, 14);           // Saturday: that weekend's Friday
+    if (dow === 0) return new Date(year, 8, 13);           // Sunday: that weekend's Friday
+    return new Date(year, 8, 15 + ((5 - dow + 7) % 7));    // the next Friday (or the 15th itself)
+  }
+  function nextParty() {
+    if (OVERRIDE) return new Date(OVERRIDE).getTime();
+    const y = new Date().getFullYear();
+    // Counts to the Friday; the page stays on "party time" until the Monday
+    for (const year of [y, y + 1]) { const d = partyDay(year); if (Date.now() < d.getTime() + 3 * 864e5) return d.getTime(); }
+  }
+  const NEXT = nextParty();
+
+  const T = {
+    en: { see: "See you at the next party", tba: "Date to be announced", now: "It's party time", demo: "Try the Demo", units: ["Days", "Hours", "Minutes", "Seconds"], other: "PT", otherLabel: "Ver em português", title: "Festa · See You at the Next Party" },
+    pt: { see: "Até à próxima festa", tba: "Data a anunciar", now: "É hora da festa", demo: "Experimentar a demo", units: ["Dias", "Horas", "Minutos", "Segundos"], other: "EN", otherLabel: "View in English", title: "Festa · Até à próxima festa" },
+  };
+  let saved = null; try { saved = localStorage.getItem("lang"); } catch (_) {}
+  let lang = new URLSearchParams(location.search).get("lang") || saved || ((navigator.language || "").toLowerCase().startsWith("pt") ? "pt" : "en");
+  if (!T[lang]) lang = "en";
+  const clock = document.getElementById("clock");
+  const target = NEXT || null;
+
+  function tick() {
+    const t = T[lang];
+    if (!target) { clock.innerHTML = `<p class="tba">${t.tba}</p>`; return; }
+    const left = target - Date.now();
+    if (left <= 0) { clock.innerHTML = `<p class="tba">${t.now}</p>`; return; }
+    const parts = [Math.floor(left / 864e5), Math.floor(left / 36e5) % 24, Math.floor(left / 6e4) % 60, Math.floor(left / 1e3) % 60];
+    const day = new Date(target).toLocaleDateString(lang === "pt" ? "pt-PT" : "en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+    clock.innerHTML = `<ul class="count">${parts.map((n, i) => `<li><b>${String(n).padStart(i ? 2 : 1, "0")}</b><span>${t.units[i]}</span></li>`).join("")}</ul><p class="when">${day}</p>`;
+  }
+  function fill() {
+    const t = T[lang];
+    document.documentElement.lang = lang;
+    document.title = t.title;
+    document.querySelectorAll("[data-t]").forEach((el) => (el.textContent = t[el.dataset.t]));
+    const b = document.getElementById("lang"); b.textContent = t.other; b.setAttribute("aria-label", `${t.other}: ${t.otherLabel}`);
+    tick();
+  }
+  fill();
+  if (target) setInterval(tick, 1000);
+  document.getElementById("lang").addEventListener("click", () => {
+    lang = lang === "pt" ? "en" : "pt";
+    try { localStorage.setItem("lang", lang); } catch (_) {}
+    fill();
+  });
+</script>
+</body>
+</html>
