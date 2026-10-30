@@ -32,7 +32,7 @@ test("Portuguese from the browser", async ({ browser }) => {
   const ctx = await browser.newContext({ locale: "pt-PT" });
   const page = await ctx.newPage();
   await page.goto("/");
-  await expect(page.locator(".see")).toHaveText("Até à próxima festa");
+  await expect(page.locator(".see")).toHaveText("Até para o ano");
   await expect(page.locator(".demo")).toHaveText("Experimentar a demo");
   await ctx.close();
 });

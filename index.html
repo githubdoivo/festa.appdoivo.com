@@ -57,12 +57,12 @@
   h1 { font: 500 clamp(56px, 11vw, 96px)/1 var(--serif); margin: 0; letter-spacing: .01em; text-shadow: 0 2px 18px rgba(0, 0, 0, .35); }
   .see { font: italic 500 clamp(22px, 3.6vw, 30px)/1.25 var(--serif); margin: 10px 0 0; color: var(--soft); text-wrap: balance; }
 
-  .bottom { display: grid; gap: 18px; justify-items: center; align-self: end; }
+  .bottom { display: grid; gap: 18px; justify-items: center; align-self: end; margin-bottom: 9svh; }
   .count { display: flex; gap: clamp(12px, 3vw, 28px); margin: 0; padding: 0; list-style: none; }
   .count li { display: grid; min-width: 64px; }
   .count b { font: 500 clamp(40px, 8vw, 64px)/1 var(--serif); font-variant-numeric: lining-nums tabular-nums; }
   .count span { font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: var(--soft); margin-top: 6px; }
-  .when { font-size: 19px; margin: 0; }
+  .when { font-size: 19px; margin: 10px 0 0; }
   .tba { font: italic 500 26px var(--serif); margin: 0; }
   .demo {
     display: inline-flex; align-items: center; min-height: 44px; padding: 0 22px; border-radius: 999px; text-decoration: none;
@@ -106,8 +106,8 @@
   const NEXT = nextParty();
 
   const T = {
-    en: { see: "See you at the next party", tba: "Date to be announced", now: "It's party time", demo: "Try the Demo", units: ["Days", "Hours", "Minutes", "Seconds"], other: "PT", otherLabel: "Ver em português", title: "Festa · See You at the Next Party" },
-    pt: { see: "Até à próxima festa", tba: "Data a anunciar", now: "É hora da festa", demo: "Experimentar a demo", units: ["Dias", "Horas", "Minutos", "Segundos"], other: "EN", otherLabel: "View in English", title: "Festa · Até à próxima festa" },
+    en: { see: "See you next year", tba: "Date to be announced", now: "It's party time", demo: "Try the Demo", units: ["Days", "Hours", "Minutes", "Seconds"], other: "PT", otherLabel: "Ver em português", title: "Festa · See You at the Next Party" },
+    pt: { see: "Até para o ano", tba: "Data a anunciar", now: "É hora da festa", demo: "Experimentar a demo", units: ["Dias", "Horas", "Minutos", "Segundos"], other: "EN", otherLabel: "View in English", title: "Festa · Até à próxima festa" },
   };
   let saved = null; try { saved = localStorage.getItem("lang"); } catch (_) {}
   let lang = new URLSearchParams(location.search).get("lang") || saved || ((navigator.language || "").toLowerCase().startsWith("pt") ? "pt" : "en");
