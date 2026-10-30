@@ -6,7 +6,7 @@ test("counts down to the Friday of the party weekend, with no errors", async ({ 
   page.on("pageerror", (e) => errors.push(e.message));
   await page.clock.setFixedTime(new Date("2026-10-30T12:00:00"));
   await page.goto("/?lang=en");
-  await expect(page.locator("h1")).toHaveText("Festa");
+  await expect(page.locator("h1")).toHaveText("festa");
   await expect(page.locator(".when")).toHaveText("Friday, 17 September 2027");
   await expect(page.locator(".count li")).toHaveCount(4);
   await expect(page.locator(".demo")).toHaveAttribute("href", "https://festa-demo.appdoivo.com");
@@ -22,7 +22,7 @@ test("the party rule: the weekend of 15 September, or the next one", async ({ pa
 test("during the party weekend it says it's party time, then moves on to next year", async ({ page }) => {
   await page.clock.setFixedTime(new Date("2027-09-18T15:00:00"));
   await page.goto("/?lang=en");
-  await expect(page.locator(".tba")).toHaveText("It's party time");
+  await expect(page.locator(".tba")).toHaveText("it's party time");
   await page.clock.setFixedTime(new Date("2027-09-21T12:00:00"));
   await page.goto("/?lang=en");
   await expect(page.locator(".when")).toContainText("2028");
@@ -32,8 +32,8 @@ test("Portuguese from the browser", async ({ browser }) => {
   const ctx = await browser.newContext({ locale: "pt-PT" });
   const page = await ctx.newPage();
   await page.goto("/");
-  await expect(page.locator(".see")).toHaveText("Até para o ano");
-  await expect(page.locator(".demo")).toHaveText("Experimentar a demo");
+  await expect(page.locator(".see")).toHaveText("até para o ano");
+  await expect(page.locator(".demo")).toHaveText("experimentar a demo");
   await ctx.close();
 });
 

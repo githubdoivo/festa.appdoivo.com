@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Festa · See You at the Next Party</title>
-<meta name="description" content="Festa, Ivo's birthday party app. See you at the next party.">
-<meta property="og:title" content="Festa · See You at the Next Party">
-<meta property="og:description" content="Festa, Ivo's birthday party app. See you at the next party.">
+<title>festa · see you next year</title>
+<meta name="description" content="festa, the app for Ivo's birthday party. see you next year.">
+<meta property="og:title" content="festa · see you next year">
+<meta property="og:description" content="festa, the app for Ivo's birthday party. see you next year.">
 <meta property="og:url" content="https://festa.appdoivo.com">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://festa.appdoivo.com/og-image.jpg?v=1">
@@ -30,7 +30,8 @@
           --serif: "Cormorant Garamond", Georgia, serif; --body: "EB Garamond", Georgia, serif; }
   * { box-sizing: border-box; }
   html, body { margin: 0; height: 100%; }
-  body { background: var(--moss); color: var(--cream); font-family: var(--body); overflow-x: hidden; }
+  /* All lowercase, like the festa app itself (its golden rule) */
+  body { background: var(--moss); color: var(--cream); font-family: var(--body); overflow-x: hidden; text-transform: lowercase; }
   .scene { position: fixed; inset: 0; overflow: hidden; }
   .scene img {
     position: absolute; top: 0; left: 50%; translate: -50% 0; height: 100%; width: auto; max-width: none;
@@ -61,7 +62,7 @@
   .count { display: flex; gap: clamp(12px, 3vw, 28px); margin: 0; padding: 0; list-style: none; }
   .count li { display: grid; min-width: 64px; }
   .count b { font: 500 clamp(40px, 8vw, 64px)/1 var(--serif); font-variant-numeric: lining-nums tabular-nums; }
-  .count span { font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: var(--soft); margin-top: 6px; }
+  .count span { font-size: 15px; letter-spacing: .04em; color: var(--soft); margin-top: 6px; }
   .when { font-size: 19px; margin: 26px 0 0; }
   .tba { font: italic 500 26px var(--serif); margin: 0; }
   .demo {
@@ -69,14 +70,20 @@
     color: var(--moss); background: var(--cream); font-size: 17px; font-weight: 500;
   }
   .demo:hover { background: #fff; }
+  /* Phones: the painting fills the height from the top, so the roof is at a
+     fixed share of it. The line sits just above the roof, under the smoke. */
+  @media (max-width: 600px) and (orientation: portrait) {
+    .see { position: absolute; left: 0; right: 0; top: 25.5svh; margin: 0; padding: 0 16px;
+           text-shadow: 0 1px 2px rgba(14, 32, 17, .9), 0 2px 14px rgba(14, 32, 17, .7); }
+  }
 </style>
 </head>
 <body>
 <div class="scene" aria-hidden="true"><img src="img/cottage.webp" alt="" width="804" height="1538"></div>
 <main>
-  <button class="lang" id="lang" type="button">PT</button>
+  <button class="lang" id="lang" type="button">pt</button>
   <header>
-    <h1>Festa</h1>
+    <h1>festa</h1>
     <p class="see" data-t="see"></p>
   </header>
   <div class="bottom">
@@ -106,8 +113,8 @@
   const NEXT = nextParty();
 
   const T = {
-    en: { see: "See you next year", tba: "Date to be announced", now: "It's party time", demo: "Try the Demo", units: ["Days", "Hours", "Minutes", "Seconds"], other: "PT", otherLabel: "Ver em português", title: "Festa · See You at the Next Party" },
-    pt: { see: "Até para o ano", tba: "Data a anunciar", now: "É hora da festa", demo: "Experimentar a demo", units: ["Dias", "Horas", "Minutos", "Segundos"], other: "EN", otherLabel: "View in English", title: "Festa · Até à próxima festa" },
+    en: { see: "see you next year", tba: "date to be announced", now: "it's party time", demo: "try the demo", units: ["days", "hours", "minutes", "seconds"], other: "pt", otherLabel: "ver em português", title: "festa · see you next year" },
+    pt: { see: "até para o ano", tba: "data a anunciar", now: "é hora da festa", demo: "experimentar a demo", units: ["dias", "horas", "minutos", "segundos"], other: "en", otherLabel: "view in English", title: "festa · até para o ano" },
   };
   let saved = null; try { saved = localStorage.getItem("lang"); } catch (_) {}
   let lang = new URLSearchParams(location.search).get("lang") || saved || ((navigator.language || "").toLowerCase().startsWith("pt") ? "pt" : "en");
