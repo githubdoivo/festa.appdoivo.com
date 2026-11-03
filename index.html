@@ -29,10 +29,16 @@
   :root { --moss: #224626; --cream: #f1ead7; --soft: #cfd8c4; --ember: #e2a676;
           --serif: "Cormorant Garamond", Georgia, serif; --body: "EB Garamond", Georgia, serif; }
   * { box-sizing: border-box; }
-  html, body { margin: 0; height: 100%; }
+  /* Nothing is pinned (no position: fixed): iPhone Safari (iOS 26) paints a solid band over
+     anything pinned to the top or bottom of the screen. The window never scrolls; main does,
+     over a still painting. On phones both reach a little below the "large" screen height,
+     where Safari's bottom bar sits. */
+  html, body { margin: 0; height: 100%; overflow: hidden; }
+  :root { --below: 0px; }
+  @media (pointer: coarse) { :root { --below: 120px; } }
   /* All lowercase, like the festa app itself (its golden rule) */
   body { background: var(--moss); color: var(--cream); font-family: var(--body); overflow-x: hidden; text-transform: lowercase; }
-  .scene { position: fixed; inset: 0; overflow: hidden; }
+  .scene { position: absolute; top: 0; left: 0; right: 0; height: calc(100vh + var(--below)); height: calc(100lvh + var(--below)); overflow: hidden; }
   .scene img {
     position: absolute; top: 0; left: 50%; translate: -50% 0; height: 100%; width: auto; max-width: none;
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
@@ -45,8 +51,9 @@
     background: linear-gradient(rgba(14, 32, 17, .55), transparent 28%, transparent 62%, rgba(14, 32, 17, .7)); }
 
   main {
-    position: relative; min-height: 100svh; display: grid; grid-template-rows: auto 1fr auto; justify-items: center; text-align: center;
-    padding: max(20px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+    position: absolute; top: 0; left: 0; right: 0; height: calc(100vh + var(--below)); height: calc(100lvh + var(--below));
+    overflow-x: hidden; overflow-y: auto; overscroll-behavior: none; display: grid; grid-template-rows: auto 1fr auto; justify-items: center; text-align: center;
+    padding: max(20px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) calc(max(20px, env(safe-area-inset-bottom)) + var(--below)) max(16px, env(safe-area-inset-left));
   }
   .lang {
     justify-self: end; min-width: 52px; min-height: 44px; padding: 0 14px; border-radius: 22px; cursor: pointer;
@@ -73,7 +80,7 @@
   /* Phones: the painting fills the height from the top, so the roof is at a
      fixed share of it. The line sits just above the roof, under the smoke. */
   @media (max-width: 600px) and (orientation: portrait) {
-    .see { position: absolute; left: 0; right: 0; top: 25.5svh; margin: 0; padding: 0 16px;
+    .see { position: absolute; left: 0; right: 0; top: calc(25.5svh + .255 * var(--below)); margin: 0; padding: 0 16px;
            text-shadow: 0 1px 2px rgba(14, 32, 17, .9), 0 2px 14px rgba(14, 32, 17, .7); }
   }
 </style>

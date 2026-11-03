@@ -44,3 +44,10 @@ test("no sideways scroll, 44px targets, no serious accessibility problems", asyn
   const r = await new AxeBuilder({ page }).analyze();
   expect(r.violations.filter((v) => ["serious", "critical"].includes(v.impact)).map((v) => v.id)).toEqual([]);
 });
+
+test("nothing is pinned to the screen edges (iPhone Safari would paint a solid band over it)", async ({ page }) => {
+  await page.goto("/");
+  const pinned = await page.evaluate(() => [...document.querySelectorAll("body *")].filter((el) => ["fixed", "sticky"].includes(getComputedStyle(el).position)).map((el) => el.className));
+  expect(pinned).toEqual([]);
+  expect(await page.evaluate(() => getComputedStyle(document.documentElement).overflowY)).toBe("hidden");
+});
