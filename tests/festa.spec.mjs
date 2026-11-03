@@ -51,3 +51,12 @@ test("nothing is pinned to the screen edges (iPhone Safari would paint a solid b
   expect(pinned).toEqual([]);
   expect(await page.evaluate(() => getComputedStyle(document.documentElement).overflowY)).toBe("hidden");
 });
+
+test("the window sits scrolled down by the painted strip above it, so the clock area shows the painting", async ({ page }) => {
+  await page.goto("/");
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(160);
+  const img = await page.locator(".scene img").evaluate((el) => el.getBoundingClientRect().top);
+  expect(Math.abs(img)).toBeLessThan(1);
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(160);
+});

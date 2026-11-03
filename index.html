@@ -34,26 +34,32 @@
      over a still painting. On phones both reach a little below the "large" screen height,
      where Safari's bottom bar sits. */
   html, body { margin: 0; height: 100%; overflow: hidden; }
-  :root { --below: 0px; }
+  :root { --below: 0px; --above: 160px; }
   @media (pointer: coarse) { :root { --below: 120px; } }
   /* All lowercase, like the festa app itself (its golden rule) */
   body { background: var(--moss); color: var(--cream); font-family: var(--body); overflow-x: hidden; text-transform: lowercase; }
-  .scene { position: absolute; top: 0; left: 0; right: 0; height: calc(100vh + var(--below)); height: calc(100lvh + var(--below)); overflow: hidden; }
+  /* The painting fills the screen; above it, a strip (--above) holds its top edge mirrored.
+     The window is held scrolled down by that strip, so iPhone Safari shows sky behind the clock. */
+  .scene { position: absolute; top: 0; left: 0; right: 0; height: calc(100vh + var(--above) + var(--below)); height: calc(100lvh + var(--above) + var(--below)); overflow: hidden; }
+  .scene::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: var(--above); transform: scaleY(-1);
+    background: linear-gradient(rgba(14, 32, 17, .55), rgba(14, 32, 17, .55)), url(img/cottage.webp) center top / auto calc(100vh + var(--below)) no-repeat;
+    background-size: auto, auto calc(100lvh + var(--below)); }
   .scene img {
-    position: absolute; top: 0; left: 50%; translate: -50% 0; height: 100%; width: auto; max-width: none;
+    position: absolute; top: var(--above); left: 50%; translate: -50% 0; height: calc(100% - var(--above)); width: auto; max-width: none;
+    -webkit-touch-callout: none; -webkit-user-drag: none; user-select: none; pointer-events: none;
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
             mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
   }
   /* Narrower than the painting (phones): no fade needed, the sides are cropped */
   @media (max-aspect-ratio: 804/1538) { .scene img { -webkit-mask-image: none; mask-image: none; } }
   /* Darken the top and bottom a little, so the words read over the paint */
-  .scene::after { content: ""; position: absolute; inset: 0;
+  .scene::after { content: ""; position: absolute; inset: var(--above) 0 0;
     background: linear-gradient(rgba(14, 32, 17, .55), transparent 28%, transparent 62%, rgba(14, 32, 17, .7)); }
 
   main {
-    position: absolute; top: 0; left: 0; right: 0; height: calc(100vh + var(--below)); height: calc(100lvh + var(--below));
+    position: absolute; top: 0; left: 0; right: 0; height: calc(100vh + var(--above) + var(--below)); height: calc(100lvh + var(--above) + var(--below));
     overflow-x: hidden; overflow-y: auto; overscroll-behavior: none; display: grid; grid-template-rows: auto 1fr auto; justify-items: center; text-align: center;
-    padding: max(20px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) calc(max(20px, env(safe-area-inset-bottom)) + var(--below)) max(16px, env(safe-area-inset-left));
+    padding: calc(var(--above) + max(20px, env(safe-area-inset-top))) max(16px, env(safe-area-inset-right)) calc(max(20px, env(safe-area-inset-bottom)) + var(--below)) max(16px, env(safe-area-inset-left));
   }
   .lang {
     justify-self: end; min-width: 52px; min-height: 44px; padding: 0 14px; border-radius: 22px; cursor: pointer;
@@ -75,6 +81,7 @@
   .demo {
     display: inline-flex; align-items: center; min-height: 44px; padding: 0 22px; border-radius: 999px; text-decoration: none;
     color: var(--moss); background: var(--cream); font-size: 17px; font-weight: 500;
+    -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; -webkit-user-drag: none;
   }
   .demo:hover { background: #fff; }
   /* Phones: the painting fills the height from the top, so the roof is at a
@@ -82,9 +89,9 @@
   @media (max-width: 600px) and (orientation: portrait) {
     /* Placed as shares of the painting's height (the painting is as tall as .scene):
        the line just above the roof, the countdown just below the house. */
-    .see { position: absolute; left: 0; right: 0; top: calc((100lvh + var(--below)) * .225); margin: 0; padding: 0 16px;
+    .see { position: absolute; left: 0; right: 0; top: calc(var(--above) + (100lvh + var(--below)) * .225); margin: 0; padding: 0 16px;
            text-shadow: 0 1px 2px rgba(14, 32, 17, .9), 0 2px 14px rgba(14, 32, 17, .7); }
-    .bottom { position: absolute; left: 0; right: 0; top: calc((100lvh + var(--below)) * .635); margin: 0; gap: 12px;
+    .bottom { position: absolute; left: 0; right: 0; top: calc(var(--above) + (100lvh + var(--below)) * .635); margin: 0; gap: 12px;
               padding: 0 16px calc(24px + var(--below)); }
     .when { margin-top: 14px; }
   }
@@ -100,7 +107,7 @@
   </header>
   <div class="bottom">
     <div id="clock" aria-live="off"></div>
-    <a class="demo" href="https://festa-demo.appdoivo.com" data-t="demo"></a>
+    <a draggable="false" class="demo" href="https://festa-demo.appdoivo.com" data-t="demo"></a>
   </div>
 </main>
 <script>
@@ -158,6 +165,20 @@
     try { localStorage.setItem("lang", lang); } catch (_) {}
     fill();
   });
+</script>
+<!-- iPhone Safari fills the area behind the clock with whatever lies just above the
+     top of the screen: the window is held scrolled down by the painted strip above. -->
+<script>
+(function () {
+  var y = 160;
+  function keep() { if (Math.abs(window.scrollY - y) > 0.5) window.scrollTo(0, y); }
+  keep();
+  document.addEventListener("DOMContentLoaded", keep);
+  window.addEventListener("load", keep);
+  window.addEventListener("resize", keep);
+  window.addEventListener("pageshow", keep);
+  window.addEventListener("scroll", keep, { passive: true });
+})();
 </script>
 </body>
 </html>
