@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <!-- csp-meta: only this site's own scripts run (refresh with ~/bin/csp-meta after editing an inline script) -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-00hlcHfAO9zlw8EIwrOGlc+hnGFap0Oulzph6OKSqmQ=' 'sha256-2IF1OqlYQEsPupU5Mrj3Qv8UhEPG8o6AQ3j7c6CNrDo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self'; frame-src 'none'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-2IF1OqlYQEsPupU5Mrj3Qv8UhEPG8o6AQ3j7c6CNrDo=' 'sha256-9TdyZkVjD7hdjX666blQoW+wLCj8Dw171DldzTHKgaQ='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self'; frame-src 'none'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
 <title>lodgedoivo · see you next year</title>
 <meta name="description" content="lodgedoivo, the app for Ivo's birthday party. see you next year.">
 <meta property="og:title" content="lodgedoivo · see you next year">
@@ -57,7 +57,7 @@
   /* Wider screens: the app's own wide painting (the one on its login), edge to edge,
      the same as the live app; no faded sides. The mirrored strip above uses it too. */
   @media (min-aspect-ratio: 804/1538) {
-    .bottom { margin-bottom: 2svh; gap: 12px; }
+    .bottom { margin-bottom: 10svh; gap: 12px; }
     .count b { font-size: clamp(30px, 4.2vw, 46px); }
     .when { margin-top: 10px; font-size: 17px; }
     /* the house sits a little higher than the painting's middle, so the countdown and the button
@@ -84,10 +84,10 @@
   :focus-visible { outline: 2px solid var(--cream); outline-offset: 3px; }
   header { margin-top: 2svh; }
   /* the app's own cursive logo (Italianno), as on lodgedoivo's top bar */
-  h1 { font: 400 clamp(64px, 15vw, 120px)/.9 'Italianno', cursive; margin: 0; letter-spacing: 0; text-transform: none; text-shadow: 0 2px 18px rgba(0, 0, 0, .35); }
+  h1 { font: 400 clamp(52px, 11vw, 88px)/.9 'Italianno', cursive; margin: 0; letter-spacing: 0; text-transform: none; text-shadow: 0 2px 18px rgba(0, 0, 0, .35); }
   .see { font: italic 500 clamp(22px, 3.6vw, 30px)/1.25 var(--serif); margin: 10px 0 0; color: var(--soft); text-wrap: balance; }
 
-  .bottom { display: grid; gap: 18px; justify-items: center; align-self: end; margin-bottom: 9svh; }
+  .bottom { display: grid; gap: 18px; justify-items: center; align-self: end; margin-bottom: 12svh; }
   .count { display: flex; gap: clamp(12px, 3vw, 28px); margin: 0; padding: 0; list-style: none; }
   .count li { display: grid; min-width: 64px; }
   /* the same type as inside the app: EB Garamond, small spaced labels */
@@ -124,7 +124,7 @@
     <p class="see" data-t="see"></p>
   </header>
   <div class="bottom">
-    <div id="clock" aria-live="off"></div>
+    <div id="clock" aria-live="off" hidden></div>
     <a draggable="false" class="demo" href="https://lodge-demo.appdoivo.com" data-t="demo"></a>
   </div>
 </main>
@@ -156,7 +156,7 @@
   let saved = null; try { saved = localStorage.getItem("lang"); } catch (_) {}
   let lang = new URLSearchParams(location.search).get("lang") || saved || ((navigator.language || "").toLowerCase().startsWith("pt") ? "pt" : "en");
   if (!T[lang]) lang = "en";
-  const clock = document.getElementById("clock");
+  const clock = document.getElementById("clock"); clock.hidden = true;
   const target = NEXT || null;
 
   function tick() {
