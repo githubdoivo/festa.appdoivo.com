@@ -5,17 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <!-- csp-meta: only this site's own scripts run (refresh with ~/bin/csp-meta after editing an inline script) -->
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-2IF1OqlYQEsPupU5Mrj3Qv8UhEPG8o6AQ3j7c6CNrDo=' 'sha256-FLF+0wzjzv9Q/MGMF06xvWAJUZWAvvSKy7oM02kCHn4='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self'; frame-src 'none'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
-<title>festa · see you next year</title>
-<meta name="description" content="festa, the app for Ivo's birthday party. see you next year.">
-<meta property="og:title" content="festa · see you next year">
-<meta property="og:description" content="festa, the app for Ivo's birthday party. see you next year.">
-<meta property="og:url" content="https://festa.appdoivo.com">
+<title>lodge · see you next year</title>
+<meta name="description" content="lodge, the app for Ivo's birthday party. see you next year.">
+<meta property="og:title" content="lodge · see you next year">
+<meta property="og:description" content="lodge, the app for Ivo's birthday party. see you next year.">
+<meta property="og:url" content="https://lodge.appdoivo.com">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://festa.appdoivo.com/og-image.jpg?v=1">
+<meta property="og:image" content="https://lodge.appdoivo.com/og-image.jpg?v=1">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="canonical" href="https://festa.appdoivo.com">
+<link rel="canonical" href="https://lodge.appdoivo.com">
 <link rel="icon" href="favicon-32.png" sizes="32x32">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -38,7 +38,7 @@
   html, body { margin: 0; height: 100%; overflow: hidden; }
   :root { --below: 0px; --above: 160px; }
   @media (pointer: coarse) { :root { --below: 120px; } }
-  /* All lowercase, like the festa app itself (its golden rule) */
+  /* All lowercase, like the lodge app itself (its golden rule) */
   body { background: var(--moss); color: var(--cream); font-family: var(--body); overflow-x: hidden; text-transform: lowercase; }
   /* The painting fills the screen; above it, a strip (--above) holds its top edge mirrored.
      The window is held scrolled down by that strip, so iPhone Safari shows sky behind the clock. */
@@ -104,12 +104,12 @@
 <main>
   <button class="lang" id="lang" type="button">pt</button>
   <header>
-    <h1>festa</h1>
+    <h1>lodge</h1>
     <p class="see" data-t="see"></p>
   </header>
   <div class="bottom">
     <div id="clock" aria-live="off"></div>
-    <a draggable="false" class="demo" href="https://festa-demo.appdoivo.com" data-t="demo"></a>
+    <a draggable="false" class="demo" href="https://lodge-demo.appdoivo.com" data-t="demo"></a>
   </div>
 </main>
 <script>

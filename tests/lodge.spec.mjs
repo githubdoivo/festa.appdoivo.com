@@ -6,10 +6,10 @@ test("counts down to the Friday of the party weekend, with no errors", async ({ 
   page.on("pageerror", (e) => errors.push(e.message));
   await page.clock.setFixedTime(new Date("2026-10-30T12:00:00"));
   await page.goto("/?lang=en");
-  await expect(page.locator("h1")).toHaveText("festa");
+  await expect(page.locator("h1")).toHaveText("lodge");
   await expect(page.locator(".when")).toHaveText("Friday, 17 September 2027");
   await expect(page.locator(".count li")).toHaveCount(4);
-  await expect(page.locator(".demo")).toHaveAttribute("href", "https://festa-demo.appdoivo.com");
+  await expect(page.locator(".demo")).toHaveAttribute("href", "https://lodge-demo.appdoivo.com");
   expect(errors).toEqual([]);
 });
 
