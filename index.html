@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <!-- csp-meta: only this site's own scripts run (refresh with ~/bin/csp-meta after editing an inline script) -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-2IF1OqlYQEsPupU5Mrj3Qv8UhEPG8o6AQ3j7c6CNrDo=' 'sha256-FLF+0wzjzv9Q/MGMF06xvWAJUZWAvvSKy7oM02kCHn4='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self'; frame-src 'none'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-00hlcHfAO9zlw8EIwrOGlc+hnGFap0Oulzph6OKSqmQ=' 'sha256-2IF1OqlYQEsPupU5Mrj3Qv8UhEPG8o6AQ3j7c6CNrDo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self'; frame-src 'none'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
 <title>lodgedoivo · see you next year</title>
 <meta name="description" content="lodgedoivo, the app for Ivo's birthday party. see you next year.">
 <meta property="og:title" content="lodgedoivo · see you next year">
@@ -73,7 +73,7 @@
   }
   .lang {
     justify-self: end; min-width: 52px; min-height: 44px; padding: 0 14px; border-radius: 22px; cursor: pointer;
-    font: 500 15px var(--body); letter-spacing: .08em; color: var(--cream); background: rgba(14, 32, 17, .35); border: 1px solid rgba(241, 234, 215, .6);
+    font: 600 16px var(--body); letter-spacing: .08em; color: var(--cream); background: transparent; border: 0; text-shadow: 0 1px 8px rgba(0, 0, 0, .5);
   }
   .lang:hover { background: var(--cream); color: var(--moss); }
   :focus-visible { outline: 2px solid var(--cream); outline-offset: 3px; }
@@ -85,13 +85,15 @@
   .bottom { display: grid; gap: 18px; justify-items: center; align-self: end; margin-bottom: 9svh; }
   .count { display: flex; gap: clamp(12px, 3vw, 28px); margin: 0; padding: 0; list-style: none; }
   .count li { display: grid; min-width: 64px; }
-  .count b { font: 500 clamp(40px, 8vw, 64px)/1 var(--serif); font-variant-numeric: lining-nums tabular-nums; }
-  .count span { font-size: 15px; letter-spacing: .04em; color: var(--soft); margin-top: 6px; }
+  /* the same type as inside the app: EB Garamond, small spaced labels */
+  .count b { font: 500 clamp(34px, 7vw, 52px)/1 var(--body); font-variant-numeric: lining-nums tabular-nums; }
+  .count span { font-size: 12.5px; font-weight: 600; letter-spacing: .16em; color: var(--soft); margin-top: 8px; }
   .when { font-size: 19px; margin: 26px 0 0; }
   .tba { font: italic 500 26px var(--serif); margin: 0; }
   .demo {
-    display: inline-flex; align-items: center; min-height: 44px; padding: 0 22px; border-radius: 999px; text-decoration: none;
-    color: var(--moss); background: var(--cream); font-size: 17px; font-weight: 500;
+    /* the app's own button (like "entrar" on its login): cream block, small spaced lowercase letters */
+    display: inline-flex; align-items: center; justify-content: center; min-height: 46px; min-width: 220px; padding: 0 26px; border-radius: 6px; text-decoration: none;
+    color: #1c1612; background: var(--cream); font: 600 13px var(--body); letter-spacing: .16em;
     -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; -webkit-user-drag: none;
   }
   .demo:hover { background: #fff; }
@@ -143,8 +145,8 @@
   const NEXT = nextParty();
 
   const T = {
-    en: { see: "see you next year", tba: "date to be announced", now: "it's party time", demo: "try the demo", units: ["days", "hours", "minutes", "seconds"], other: "pt", otherLabel: "ver em português", title: "festa · see you next year" },
-    pt: { see: "até para o ano", tba: "data a anunciar", now: "é hora da festa", demo: "experimentar a demo", units: ["dias", "horas", "minutos", "segundos"], other: "en", otherLabel: "view in English", title: "festa · até para o ano" },
+    en: { see: "see you next year", tba: "date to be announced", now: "it's party time", demo: "try the demo", units: ["days", "hours", "minutes", "seconds"], other: "pt", otherLabel: "ver em português", title: "lodgedoivo · see you next year" },
+    pt: { see: "até para o ano", tba: "data a anunciar", now: "é hora da festa", demo: "experimentar a demo", units: ["dias", "horas", "minutos", "segundos"], other: "en", otherLabel: "view in English", title: "lodgedoivo · até para o ano" },
   };
   let saved = null; try { saved = localStorage.getItem("lang"); } catch (_) {}
   let lang = new URLSearchParams(location.search).get("lang") || saved || ((navigator.language || "").toLowerCase().startsWith("pt") ? "pt" : "en");
