@@ -57,7 +57,12 @@
   /* Wider screens: the app's own wide painting (the one on its login), edge to edge,
      the same as the live app; no faded sides. The mirrored strip above uses it too. */
   @media (min-aspect-ratio: 804/1538) {
-    .scene { background: var(--moss) url(img/cottage-wide.jpg) no-repeat; background-position: center var(--above); background-size: max(100vw, calc((100lvh + var(--below)) * 2307 / 1538)) auto; }
+    .bottom { margin-bottom: 2svh; gap: 12px; }
+    .count b { font-size: clamp(30px, 4.2vw, 46px); }
+    .when { margin-top: 10px; font-size: 17px; }
+    /* the house sits a little higher than the painting's middle, so the countdown and the button
+       stand on the grass below it, never in front of it */
+    .scene { background: var(--moss) url(img/cottage-wide.jpg) no-repeat; background-position: center calc(var(--above) - 4lvh); background-size: max(100vw, calc((100lvh + var(--below)) * 2307 / 1538)) auto; }
     @media (min-aspect-ratio: 2/1) { .scene { background-position: center calc(var(--above) - (100vw * 1538 / 2307 - 100lvh) * .4); } }
     .scene img { display: none; }
     .scene::before { background: linear-gradient(rgba(14, 32, 17, .55), rgba(14, 32, 17, .55)), url(img/cottage-wide.jpg) center top / max(100vw, calc((100lvh + var(--below)) * 2307 / 1538)) auto no-repeat; }
