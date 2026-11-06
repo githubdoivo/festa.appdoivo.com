@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <!-- csp-meta: only this site's own scripts run (refresh with ~/bin/csp-meta after editing an inline script) -->
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-2IF1OqlYQEsPupU5Mrj3Qv8UhEPG8o6AQ3j7c6CNrDo=' 'sha256-FLF+0wzjzv9Q/MGMF06xvWAJUZWAvvSKy7oM02kCHn4='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self'; frame-src 'none'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
-<title>lodge · see you next year</title>
-<meta name="description" content="lodge, the app for Ivo's birthday party. see you next year.">
-<meta property="og:title" content="lodge · see you next year">
-<meta property="og:description" content="lodge, the app for Ivo's birthday party. see you next year.">
+<title>lodgedoivo · see you next year</title>
+<meta name="description" content="lodgedoivo, the app for Ivo's birthday party. see you next year.">
+<meta property="og:title" content="lodgedoivo · see you next year">
+<meta property="og:description" content="lodgedoivo, the app for Ivo's birthday party. see you next year.">
 <meta property="og:url" content="https://lodge.appdoivo.com">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://lodge.appdoivo.com/og-image.jpg?v=1">
@@ -24,7 +24,7 @@
 <link rel="preload" as="image" href="img/cottage.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=EB+Garamond:wght@400;500&family=Italianno&display=swap" rel="stylesheet">
 <style>
   /* Between parties: the cottage from the app's login screen, and a countdown.
      The painting's own green continues past its edges on wide screens. */
@@ -78,7 +78,8 @@
   .lang:hover { background: var(--cream); color: var(--moss); }
   :focus-visible { outline: 2px solid var(--cream); outline-offset: 3px; }
   header { margin-top: 2svh; }
-  h1 { font: 500 clamp(56px, 11vw, 96px)/1 var(--serif); margin: 0; letter-spacing: .01em; text-shadow: 0 2px 18px rgba(0, 0, 0, .35); }
+  /* the app's own cursive logo (Italianno), as on lodgedoivo's top bar */
+  h1 { font: 400 clamp(64px, 15vw, 120px)/.9 'Italianno', cursive; margin: 0; letter-spacing: 0; text-transform: none; text-shadow: 0 2px 18px rgba(0, 0, 0, .35); }
   .see { font: italic 500 clamp(22px, 3.6vw, 30px)/1.25 var(--serif); margin: 10px 0 0; color: var(--soft); text-wrap: balance; }
 
   .bottom { display: grid; gap: 18px; justify-items: center; align-self: end; margin-bottom: 9svh; }
@@ -112,7 +113,7 @@
 <main>
   <button class="lang" id="lang" type="button">pt</button>
   <header>
-    <h1>lodge</h1>
+    <h1>lodgedoivo</h1>
     <p class="see" data-t="see"></p>
   </header>
   <div class="bottom">
